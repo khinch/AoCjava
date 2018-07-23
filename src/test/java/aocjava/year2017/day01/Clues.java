@@ -2,11 +2,10 @@ package aocjava.year2017.day01;
 
 
 import aocjava.Clue;
-
+import aocjava.InvalidPuzzleInputException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,24 +39,25 @@ public class Clues
     }
 
     @Test
-    public static void part1()
-    {
-        checkClues(part1clues);
-    }
-
-    @Test
-    public static void part2()
-    {
-        checkClues(part2clues);
-    }
-
-    private static void checkClues(List<Clue> clues)
+    public static void part1() throws InvalidPuzzleInputException
     {
         for(Clue clue : part1clues)
         {
             String input = clue.getInput();
             String expectedOutput = clue.getExpectedOutput();
             String actualOutput = Solve.part1(input);
+            Assert.assertEquals(actualOutput, expectedOutput);
+        }
+    }
+
+    @Test
+    public static void part2() throws InvalidPuzzleInputException
+    {
+        for(Clue clue : part2clues)
+        {
+            String input = clue.getInput();
+            String expectedOutput = clue.getExpectedOutput();
+            String actualOutput = Solve.part2(input);
             Assert.assertEquals(actualOutput, expectedOutput);
         }
     }
