@@ -11,9 +11,6 @@ import java.util.List;
 
 /**
  * http://adventofcode.com/2017/day/1
- *
- *
- *
  */
 
 public class Clues
