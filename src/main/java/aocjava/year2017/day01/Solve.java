@@ -5,6 +5,8 @@ import aocjava.InvalidPuzzleInputException;
 /**
  * Class to solve puzzle on 1st Dec 2017
  *
+ * http://adventofcode.com/2017/day/1
+ *
  * TODO: Implement logging
  */
 
@@ -51,6 +53,5 @@ public class Solve
 
         return String.valueOf(total);
     }
-
 
 }
