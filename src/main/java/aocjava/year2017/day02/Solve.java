@@ -47,4 +47,10 @@ public class Solve
         }
         return String.valueOf(checksum);
     }
+
+    public static String part2(String input) throws InvalidPuzzleInputException
+    {
+        return "Not yet implemented.";
+    }
+
 }
