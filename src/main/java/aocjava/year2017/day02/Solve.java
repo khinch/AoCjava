@@ -50,7 +50,50 @@ public class Solve
 
     public static String part2(String input) throws InvalidPuzzleInputException
     {
-        return "Not yet implemented.";
+        int total = 0;
+
+        for(String line : input.split("\n"))
+        {
+            String[] charNums = line.split("\\s+");
+            int[] nums = new int[charNums.length];
+            for(int i = 0; i < nums.length; i++)
+            {
+                try
+                {
+                    nums[i] = Integer.valueOf(charNums[i]);
+                } catch (NumberFormatException e)
+                {
+                    throw new InvalidPuzzleInputException("Input contains non-numeric characters: " + charNums[i]);
+                }
+            }
+
+            boolean lineDone = false;
+            for(int i = 0; i < nums.length-1; i++)
+            {
+                for(int j = i+1; j < nums.length; j++)
+                {
+                    int a = nums[i];
+                    int b = nums[j];
+                    if(a>b && a%b == 0)
+                    {
+                        total += a/b;
+                        lineDone = true;
+                        break;
+                    } else if (b>a && b%a == 0)
+                    {
+                        total += b/a;
+                        lineDone = true;
+                        break;
+                    }
+                }
+                if(lineDone)
+                {
+                    break;
+                }
+            }
+        }
+
+        return String.valueOf(total);
     }
 
 }
