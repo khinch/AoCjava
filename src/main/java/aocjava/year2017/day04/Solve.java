@@ -15,11 +15,22 @@ public class Solve
 {
     public static String part1(String input) throws InvalidPuzzleInputException
     {
-        return "not implemented";
+        int total = 0;
+        String[] passphrases = input.split("\n");
+        for (String passphrase : passphrases)
+        {
+            if (new Passphrase(passphrase).isValid())
+            {
+                total++;
+            }
+        }
+        return Integer.toString(total);
     }
 
     public static String part2(String input) throws InvalidPuzzleInputException
     {
         return "not implemented";
     }
+
+
 }
