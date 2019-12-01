@@ -13,13 +13,32 @@ public class Solve {
         int totalFuel = 0;
         for(String moduleMassString : input.split("\n")) {
             int mass = Integer.parseInt(moduleMassString);
-            totalFuel += calculateFuelRequired(mass);
+            totalFuel += calculateFuelRequiredForMass(mass);
         }
         return Integer.toString(totalFuel);
     }
     
-    private static int calculateFuelRequired(int mass) {
-        return (mass / 3) - 2;
+    public static String part2(String input) {
+        int totalFuel = 0;
+        for(String moduleMassString : input.split("\n")) {
+            int mass = Integer.parseInt(moduleMassString);
+            totalFuel += calculateFuelRequiredForModule(mass);
+        }
+        return Integer.toString(totalFuel);
     }
     
+    private static int calculateFuelRequiredForMass(int mass) {
+        int fuelRequired = (mass / 3) - 2;
+        return fuelRequired > 0 ? fuelRequired : 0;
+    }
+    
+    private static int calculateFuelRequiredForModule(int mass) {
+        int additionalFuel = calculateFuelRequiredForMass(mass);
+        int aggregate = additionalFuel;
+        while(additionalFuel != 0) {
+            additionalFuel = calculateFuelRequiredForMass(additionalFuel);
+            aggregate += additionalFuel;
+        }
+        return aggregate;
+    }
 }
