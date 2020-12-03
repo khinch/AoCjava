@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "years"
+  ],
+  "properties": {
+    "years": {
+      "$id": "#/properties/years",
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "$id": "#/properties/years/items",
+        "type": "object",
+        "required": [
+          "year",
+          "days"
+        ],
+        "properties": {
+          "year": {
+            "$id": "#/properties/years/items/properties/year",
+            "type": "integer",
+            "minimum": 2015,
+            "maximum": 2020
+          },
+          "days": {
+            "$id": "#/properties/years/items/properties/days",
+            "type": "array",
+            "additionalItems": false,
+            "items": {
+              "$id": "#/properties/years/items/properties/days/items",
+              "type": "object",
+              "required": [
+                "day",
+                "parts"
+              ],
+              "properties": {
+                "day": {
+                  "$id": "#/properties/years/items/properties/days/items/properties/day",
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 25
+                },
+                "parts": {
+                  "$id": "#/properties/years/items/properties/days/items/properties/parts",
+                  "type": "array",
+                  "additionalItems": false,
+                  "items": {
+                    "$id": "#/properties/years/items/properties/days/items/properties/parts/items",
+                    "type": "object",
+                    "required": [
+                      "part",
+                      "input"
+                    ],
+                    "properties": {
+                      "part": {
+                        "$id": "#/properties/years/items/properties/days/items/properties/parts/items/properties/part",
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2
+                      },
+                      "input": {
+                        "$id": "#/properties/years/items/properties/days/items/properties/parts/items/properties/input",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

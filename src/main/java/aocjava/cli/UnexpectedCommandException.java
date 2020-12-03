@@ -1,4 +1,4 @@
-package aocjava.jcommander;
+package aocjava.cli;
 
 public class UnexpectedCommandException extends RuntimeException {
     public UnexpectedCommandException(String message) {

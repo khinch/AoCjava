@@ -1,0 +1,49 @@
+{
+  "years": [
+    {
+      "year": 2017,
+      "days": [
+        {
+          "day": 1,
+          "parts": [
+            {
+              "part": 1,
+              "input": "Example 2017 day01 part1 input"
+            },
+            {
+              "part": 2,
+              "input": "Example 2017 day01 part2 input"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "parts": [
+            {
+              "part": 1,
+              "input": "Example 2017 day02 part1 input"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "days": [
+        {
+          "day": 25,
+          "parts": [
+            {
+              "part": 1,
+              "input": "Example 2019 day25 part1 input"
+            },
+            {
+              "part": 2,
+              "input": "Example 2019 day25 part2 input"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

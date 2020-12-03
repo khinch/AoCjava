@@ -20,6 +20,12 @@
             <artifactId>jcommander</artifactId>
             <version>1.78</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.everit.json/org.everit.json.schema -->
+        <dependency>
+            <groupId>org.everit.json</groupId>
+            <artifactId>org.everit.json.schema</artifactId>
+            <version>1.5.1</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>

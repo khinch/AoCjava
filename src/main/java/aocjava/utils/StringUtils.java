@@ -1,4 +1,4 @@
-package aocjava.Utils;
+package aocjava.utils;
 
 import java.util.HashMap;
 

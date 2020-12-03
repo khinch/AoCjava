@@ -1,6 +1,7 @@
 package aocjava.year2017.day01;
 
 import aocjava.InvalidPuzzleInputException;
+import aocjava.Solvable;
 
 /**
  * Class to solve puzzle on 1st Dec 2017
@@ -10,7 +11,7 @@ import aocjava.InvalidPuzzleInputException;
  * TODO: Implement logging
  */
 
-public class Solve
+public class Solve implements Solvable
 {
     public static String part1(String input) throws InvalidPuzzleInputException
     {
