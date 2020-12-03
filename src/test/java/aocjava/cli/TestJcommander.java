@@ -11,20 +11,20 @@ public class TestJcommander {
     void showHelpShort() {
         String[] args = {"-h"};
         CliValidator validator = new CliValidator(args, PROGRAM_NAME);
-        assertTrue(validator.validateCliArgs());
+        validator.validateCliArgs();
     }
 
     @Test
     void showHelpLong() {
         String[] args = {"--help"};
         CliValidator validator = new CliValidator(args, PROGRAM_NAME);
-        assertTrue(validator.validateCliArgs());
+        validator.validateCliArgs();
     }
 
     @Test
     void showHelpBoth() {
         String[] args = {"-h", "--help"};
         CliValidator validator = new CliValidator(args, PROGRAM_NAME);
-        assertTrue(validator.validateCliArgs());
+        validator.validateCliArgs();
     }
 }
