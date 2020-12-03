@@ -1,0 +1,27 @@
+{
+  "years": [
+    {
+      "year": 2014,
+      "days": [
+        {
+          "day": 0,
+          "parts": [
+            {
+              "part": 0,
+              "input": "Example 2014 day00 part0 input"
+            }
+          ]
+        },
+        {
+          "day": 26,
+          "parts": [
+            {
+              "part": 3,
+              "input": "Example 2014 day26 part3 input"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
