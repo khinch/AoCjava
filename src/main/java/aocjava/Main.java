@@ -1,16 +1,76 @@
 package aocjava;
 
-import aocjava.cli.*;
-
+import aocjava.cli.CliManager;
+import aocjava.cli.UnexpectedActionException;
+import com.beust.jcommander.ParameterException;
 import java.lang.reflect.InvocationTargetException;
 
 public class Main
 {
-    public static void main(String... args)
-    {
-        CliValidator validator = new CliValidator(args, "AoCjava");
-        validator.validateCliArgs();
+    public static void main(String... args) {
 
+        CliManager cliManager = new CliManager(args, "AoCjava");
+        try {
+            cliManager.validateCliArgs();
+        } catch (ParameterException e) {
+            System.out.println("Failed to validate arguments: " + e.getMessage());
+            cliManager.printUsage();
+            System.exit(1);
+        }
+
+        switch (cliManager.getAction()) {
+            case HELP:
+                cliManager.showHelp();
+                break;
+            case SHOWCOMPLETED:
+                showCompleted();
+                break;
+            case FILE:
+                doFileStuff();
+                break;
+            case SOLVE:
+                doSolveStuff();
+                break;
+            default:
+                throw new UnexpectedActionException("Expected one of: help, show completed, file, solve.\n" +
+                        "This is an internal error");
+        }
+
+
+
+
+
+    }
+
+    private static void showCompleted() {
+        System.out.println("Showing all completed solutions");
+        // use reflection to loop through classes that implement Solvable interface
+    }
+
+    private static void doFileStuff() {
+        System.out.println("Doing file stuff");
+        // get file path
+        // check file exists
+        // validate against schema
+        // pass it to something to deal with it
+
+
+        //        if(jCommander.getParsedCommand().equals("file")) {
+//            if(!file.getFilepath().exists()) {
+//                return false;
+//            }
+//            // validate against schema
+//        }
+
+    }
+
+    private static void doSolveStuff() {
+        System.out.println("Doing solve stuff");
+        // get details of what to run
+        // pass it to something to deal with it
+    }
+
+    private static void reflectionStuff() {
         String year = "2017";
         String day = "02";
         StringBuilder stringBuilder = new StringBuilder();
@@ -41,26 +101,16 @@ public class Main
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             System.out.println("Unable to initialise class: " + goodClassPath);
         }
-        if(myGoodObject instanceof Solvable) {
+        if (myGoodObject instanceof Solvable) {
             System.out.println("We're good to go!");
         } else {
             System.out.println("D'oh!");
         }
 //        Solvable goodSolvable = (Solvable)myGoodObject;
 //        Solvable badSolvable = (Solvable)myBadObject;
-
-//        if(jCommander.getParsedCommand().equals("file")) {
-//            if(!file.getFilepath().exists()) {
-//                return false;
-//            }
-//            // validate against schema
-//        }
-
     }
 
-    private static void showCompleted() {
-        System.out.println("Showing all completed solutions");
-    }
+
 
 
 }

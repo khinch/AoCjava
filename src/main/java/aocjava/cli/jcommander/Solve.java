@@ -1,10 +1,10 @@
-package aocjava.cli;
+package aocjava.cli.jcommander;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 @Parameters(commandDescription = "Solve specific puzzle")
-public class Solve {
+public class Solve implements CliAction {
 
     @Parameter(names = {"-y", "--year"}, description = "Year of the puzzle to solve", required = true, order = 100)
     private String year;
