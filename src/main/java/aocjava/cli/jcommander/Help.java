@@ -1,8 +1,8 @@
-package aocjava.cli;
+package aocjava.cli.jcommander;
 
 import com.beust.jcommander.Parameter;
 
-public class Help {
+public class Help implements CliAction {
     @Parameter(names = {"-h", "--help"}, description = "Show this help message")
     private boolean showHelp = false;
 
