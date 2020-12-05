@@ -1,5 +1,5 @@
 package aocjava;
 
 public interface Solvable {
-    String solve(String input);
+    public String solve(String input);
 }
