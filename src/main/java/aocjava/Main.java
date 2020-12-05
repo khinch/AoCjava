@@ -2,6 +2,8 @@ package aocjava;
 
 import aocjava.cli.CliManager;
 import aocjava.cli.UnexpectedActionException;
+import aocjava.cli.jcommander.Solve;
+import aocjava.utils.ClasspathUtils;
 import com.beust.jcommander.ParameterException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -29,17 +31,12 @@ public class Main
                 doFileStuff();
                 break;
             case SOLVE:
-                doSolveStuff();
+                solveSingle(cliManager.getSolve());
                 break;
             default:
                 throw new UnexpectedActionException("Expected one of: help, show completed, file, solve.\n" +
-                        "This is an internal error");
+                        "This is an internal error.");
         }
-
-
-
-
-
     }
 
     private static void showCompleted() {
@@ -64,8 +61,21 @@ public class Main
 
     }
 
-    private static void doSolveStuff() {
-        System.out.println("Doing solve stuff");
+    private static void solveSingle(Solve solve) {
+        String year = solve.getYear();
+        String day = solve.getDay();
+        String part = solve.getPart();
+        String input = solve.getInput();
+
+        String clazzpath = "aocjava.year" + year + ".day" + day + ".Part" + part;
+
+        Solvable solvable = ClasspathUtils.getSolvable(clazzpath);
+        System.out.println(solvable.solve(input));
+
+
+
+
+        // System.out.println("Doing solve stuff");
         // get details of what to run
         // pass it to something to deal with it
     }
