@@ -21,8 +21,7 @@
           "year": {
             "$id": "#/properties/years/items/properties/year",
             "type": "integer",
-            "minimum": 2015,
-            "maximum": 2020
+            "minimum": 2015
           },
           "days": {
             "$id": "#/properties/years/items/properties/days",

@@ -11,7 +11,7 @@ import aocjava.Solvable;
  * TODO: Implement logging
  */
 
-public class Solve implements Solvable
+public class Solve
 {
     public static String part1(String input) throws InvalidPuzzleInputException
     {

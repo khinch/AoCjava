@@ -52,12 +52,20 @@ public class CliManager {
         }
     }
 
+    public File getFile() {
+        return file;
+    }
+
+    public Solve getSolve() {
+        return solve;
+    }
+
     public void validateCliArgs() {
         jCommander = JCommander.newBuilder()
-            .addCommand("solve", solve)
-            .addCommand("file", file)
-            .addObject(showCompleted)
             .addObject(help)
+            .addObject(showCompleted)
+            .addCommand("file", file)
+            .addCommand("solve", solve)
             .build();
         jCommander.setProgramName(programName);
         jCommander.setCaseSensitiveOptions(false);

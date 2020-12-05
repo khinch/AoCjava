@@ -6,7 +6,11 @@ import com.beust.jcommander.Parameters;
 @Parameters(commandDescription = "Solve specific puzzle")
 public class Solve implements CliAction {
 
-    @Parameter(names = {"-y", "--year"}, description = "Year of the puzzle to solve", required = true, order = 100)
+    @Parameter(names = {"-y", "--year"},
+            description = "Year of the puzzle to solve",
+            required = true,
+            validateWith = Year.class,
+            order = 100)
     private String year;
 
     @Parameter(names = {"-d", "--day"}, description = "Day of the puzzle to solve", required = true, order = 101)
