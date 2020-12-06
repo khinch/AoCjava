@@ -9,14 +9,22 @@ public class Solve implements CliAction {
     @Parameter(names = {"-y", "--year"},
             description = "Year of the puzzle to solve",
             required = true,
-            validateWith = Year.class,
+            validateWith = YearValidator.class,
             order = 100)
     private String year;
 
-    @Parameter(names = {"-d", "--day"}, description = "Day of the puzzle to solve", required = true, order = 101)
+    @Parameter(names = {"-d", "--day"},
+            description = "Day of the puzzle to solve",
+            required = true,
+            validateWith = DayValidator.class,
+            order = 101)
     private String day;
 
-    @Parameter(names = {"-p", "--part"}, description = "Part of the puzzle to solve", required = true, order = 102)
+    @Parameter(names = {"-p", "--part"},
+            description = "Part of the puzzle to solve",
+            required = true,
+            validateWith = PartValidator.class,
+            order = 102)
     private String part;
 
     @Parameter(names = {"-i", "--input"}, description = "Puzzle input", required = true, order = 103)
