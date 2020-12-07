@@ -63,9 +63,7 @@ class BagOperations {
             allContents.add(innerBagColour);
             Set<String> innerContents = rules.get(innerBagColour).getInnerColours();
             if(!innerContents.isEmpty()) {
-                for(String containedInnerColour : getAllContainedColours(innerBagColour)) {
-                    allContents.add(containedInnerColour);
-                }
+                allContents.addAll(getAllContainedColours(innerBagColour));
             }
         }
         return allContents;
