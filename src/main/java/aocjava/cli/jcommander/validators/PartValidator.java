@@ -1,20 +1,20 @@
-package aocjava.cli.jcommander;
+package aocjava.cli.jcommander.validators;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
-public class YearValidator implements IParameterValidator {
+public class PartValidator implements IParameterValidator {
 
-    private static final String MESSAGE = "Format: YYYY. Supported years: 2015 onwards";
+    private static final String MESSAGE = "Must be 1 or 2";
 
     public void validate(String name, String value) {
-        int year;
+        int part;
         try {
-            year = Integer.parseInt(value);
+            part = Integer.parseInt(value);
         } catch (NumberFormatException e) {
             throw new ParameterException(name + " " + MESSAGE);
         }
-        if(year < 2015) {
+        if(part < 1 || part > 2) {
             throw new ParameterException(name + " " + MESSAGE);
         }
     }

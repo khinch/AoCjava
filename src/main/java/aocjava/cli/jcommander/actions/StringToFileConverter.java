@@ -1,4 +1,4 @@
-package aocjava.cli;
+package aocjava.cli.jcommander.actions;
 
 import com.beust.jcommander.IStringConverter;
 

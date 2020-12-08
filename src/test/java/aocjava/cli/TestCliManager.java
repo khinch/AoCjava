@@ -56,14 +56,11 @@ public class TestCliManager {
 
     @Test
     void solveInvalid() {
-        assertExceptionMessage("" +
-                "The following options are required: [-d | --day], [-i | --input]",
+        assertExceptionMessage("-y Format: YYYY. Supported years: 2015 onwards",
                 "solve", "-y", "-d", "-p", "-i");
-        assertExceptionMessage("" +
-                "Was passed main parameter '-z' but no main parameter was defined in your arg class",
+        assertExceptionMessage("Was passed main parameter '-z' but no main parameter was defined in your arg class",
                 "solve", "-z");
-        assertExceptionMessage("" +
-                "The following options are required: [-y | --year], [-p | --part], [-d | --day], [-i | --input]",
+        assertExceptionMessage("The following options are required: [-d | --day], [-p | --part], [-y | --year], [-i | --input]",
                 "solve");
     }
 

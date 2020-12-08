@@ -1,4 +1,4 @@
-package aocjava.cli.jcommander;
+package aocjava.cli.jcommander.validators;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;

@@ -1,5 +1,8 @@
-package aocjava.cli.jcommander;
+package aocjava.cli.jcommander.actions;
 
+import aocjava.cli.jcommander.validators.DayValidator;
+import aocjava.cli.jcommander.validators.PartValidator;
+import aocjava.cli.jcommander.validators.YearValidator;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 

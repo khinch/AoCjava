@@ -1,19 +1,25 @@
 package aocjava;
 
 import aocjava.cli.CliManager;
+import aocjava.cli.SchemaValidator;
 import aocjava.cli.UnexpectedActionException;
 import aocjava.utils.ClasspathUtils;
 import com.beust.jcommander.ParameterException;
+import org.everit.json.schema.ValidationException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Main
 {
-    public static void main(String... args) {
+    public static void main(String... args) throws Exception {
 
         CliManager cliManager = new CliManager(args, "AoCjava");
         try {
@@ -38,7 +44,7 @@ public class Main
                 solveSingle(cliManager.getSolve().getYear(),
                         cliManager.getSolve().getDay(),
                         cliManager.getSolve().getPart(),
-                        cliManager.getSolve().getInput());
+                        cliManager.getSolve().getInput()); // TODO refactor cliManager to use custom solve object
                 break;
             default:
                 throw new UnexpectedActionException("Expected one of: help, show completed, file, solve.\n" +
@@ -51,19 +57,13 @@ public class Main
         for(int year = 2015; year <= LocalDate.now().getYear(); year++) {
             List<String> puzzles = new LinkedList<>();
             for(int day = 1; day <= 25; day ++) {
-
                 String puzzle;
-                // if( part 1 completd) {
-              // make string
-              // if(part2 completed {
-                // append string
-              //}
-            //}
-
-                for(int part = 1; part <= 2; part++) {
-                    if(ClasspathUtils.isClass(getSolvableClasspath(year, day, part))) {
-                        puzzles.add(String.format("%02d", day) + " part " + part);
+                if(ClasspathUtils.isClass(getSolvableClasspath(year, day, 1))) {
+                    puzzle = String.format("%02d", day) + " part 1";
+                    if(ClasspathUtils.isClass(getSolvableClasspath(year, day, 2))) {
+                        puzzle = puzzle + " & 2";
                     }
+                    puzzles.add(puzzle);
                 }
             }
             if(!puzzles.isEmpty()) {
@@ -75,20 +75,45 @@ public class Main
         }
     }
 
-    private static void doFileStuff(File filepathj) {
-        System.out.println("Doing file stuff");
-        // get file path
-        // check file exists
-        // validate against schema
-        // pass it to something to deal with it
+    private static void doFileStuff(File filepath) throws FileNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(filepath);
+        JSONTokener jsonTokener = new JSONTokener(fileInputStream);
+        JSONObject jsonObject = new JSONObject(jsonTokener);
+        SchemaValidator schemaValidator = new SchemaValidator("schema.json");
+        try {
+            schemaValidator.validate(jsonObject);
+        } catch (ValidationException e) {
+            System.out.println("Input file failed validation, please check format:\t");
+            System.out.println("\t" + e.getMessage());
+            System.out.println("\t" + filepath);
+            System.out.println("\tValid years are 2015 onwards. Valid days are 1-25. Valid parts are 1 & 2.");
+            System.out.println("\tExample format:");
+            System.out.println("{\n" +
+                    "  \"years\": [\n" +
+                    "    {\n" +
+                    "      \"year\": 2015,\n" +
+                    "      \"days\": [\n" +
+                    "        {\n" +
+                    "          \"day\": 1,\n" +
+                    "          \"parts\": [\n" +
+                    "            {\n" +
+                    "              \"part\": 1,\n" +
+                    "              \"input\": \"Puzzle input here\"\n" +
+                    "            }\n" +
+                    "          ]\n" +
+                    "        }\n" +
+                    "      ]\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}");
+        }
 
-
-        //        if(jCommander.getParsedCommand().equals("file")) {
-//            if(!file.getFilepath().exists()) {
-//                return false;
-//            }
-//            // validate against schema
-//        }
+        Map<String, Object> objectList = jsonObject.toMap();
+        // TODO these things:
+        // Define a custom class to hold the params (also can be used for solveSingle)
+        // Pass object list to a method to return a list of param objects
+        // for each object in the list, call solveSingle(<Object>)
+        // output answers for each solution, catch any exceptions and show the error messages
 
     }
 
@@ -115,48 +140,5 @@ public class Main
     private static String getSolvableClasspath(String year, String day, String part) {
         return "aocjava.year" + year + ".day" + day + ".Part" + part;
     }
-
-    private static void reflectionStuff() {
-        String year = "2017";
-        String day = "02";
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("aocjava.year");
-        stringBuilder.append(year);
-        stringBuilder.append(".day");
-        stringBuilder.append(day);
-        stringBuilder.append(".Solve");
-        String goodClassPath = stringBuilder.toString();
-//        String goodClassPath = "aocjava.year2017.day01.Solve";
-        String badClassPath = "aocjava.year2017.day02.Solve";
-
-//        Object myGoodObject;
-        Object myBadObject;
-        Class myGoodClass = null;
-        try {
-//            myGoodObject = Class.forName(goodClassPath).getDeclaredConstructor().newInstance();
-//            myBadObject = Class.forName(badClassPath).getDeclaredConstructor().newInstance();
-            myGoodClass = Class.forName(goodClassPath);
-        } catch (ClassNotFoundException e) {
-            System.out.println("No such class: " + goodClassPath);
-//            myGoodObject = new Object();
-//            myBadObject = new Object();
-        }
-        Object myGoodObject = null;
-        try {
-            myGoodObject = myGoodClass.getDeclaredConstructor().newInstance();
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            System.out.println("Unable to initialise class: " + goodClassPath);
-        }
-        if (myGoodObject instanceof Solvable) {
-            System.out.println("We're good to go!");
-        } else {
-            System.out.println("D'oh!");
-        }
-//        Solvable goodSolvable = (Solvable)myGoodObject;
-//        Solvable badSolvable = (Solvable)myBadObject;
-    }
-
-
-
 
 }

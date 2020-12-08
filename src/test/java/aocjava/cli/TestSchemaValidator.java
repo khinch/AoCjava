@@ -8,7 +8,6 @@ import org.testng.Assert;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 
-
 public class TestSchemaValidator {
 
     SchemaValidator schemaValidator = new SchemaValidator("schema.json");
