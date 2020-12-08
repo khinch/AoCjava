@@ -1,4 +1,4 @@
-package aocjava.cli.jcommander;
+package aocjava.cli.jcommander.actions;
 
 import com.beust.jcommander.Parameter;
 

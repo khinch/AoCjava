@@ -1,9 +1,9 @@
 package aocjava.cli;
 
-import aocjava.cli.jcommander.File;
-import aocjava.cli.jcommander.Help;
-import aocjava.cli.jcommander.ShowCompleted;
-import aocjava.cli.jcommander.Solve;
+import aocjava.cli.jcommander.actions.File;
+import aocjava.cli.jcommander.actions.Help;
+import aocjava.cli.jcommander.actions.ShowCompleted;
+import aocjava.cli.jcommander.actions.Solve;
 import com.beust.jcommander.JCommander;
 
 public class CliManager {
