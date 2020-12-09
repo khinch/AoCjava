@@ -2,7 +2,6 @@ package aocjava.year2020.day08;
 
 import aocjava.ResolutionFailureException;
 import aocjava.Solvable;
-
 import java.util.LinkedList;
 import java.util.List;
 
