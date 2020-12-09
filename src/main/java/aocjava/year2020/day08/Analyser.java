@@ -1,79 +1,82 @@
 package aocjava.year2020.day08;
 
+import aocjava.InvalidPuzzleInputException;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Analyser {
 
-    private List<Instruction> instructionList;
-    private final int maxIndex;
+    private final List<Instruction> instructionList;
     private final int endIndex;
 
     public Analyser(List<Instruction> instructionList) {
-        this.instructionList = instructionList;
-        maxIndex = instructionList.size()-1;
-        endIndex = instructionList.size();
+        this.instructionList = new LinkedList<>(instructionList);
+        this.endIndex = instructionList.size();
     }
 
-    public void mapReverse() {
+    public int identifyFaultyInstruction() {
+        mapReverseSteps();
+        List<Integer> penultimateIndices = findPenultimateIndices();
+        for(int penultimateIndex : penultimateIndices) {
+            walkEndPath(penultimateIndex);
+        }
+        return identifyFaultyIndex();
+    }
+
+    private void mapReverseSteps() {
         for(int i = 0; i < endIndex; i++) {
             Instruction current = instructionList.get(i);
-            if(current.getOperation().equals(Operation.JMP)) {
-                int forwardIndex = i + current.getArgument();
-                // if(forwardIndex )
-                instructionList.get(i + current.getArgument()).addComeFrom(i);
-            } else {
-                instructionList.get(i+1).addComeFrom(i);
+            int forwardIndex = i + current.getNextOffset();
+            if(forwardIndex < 0 || forwardIndex > endIndex) {
+                throw new InvalidPuzzleInputException("Instruction on line " + (i-1) + "points to non-existent instruction");
+            } else if (forwardIndex != endIndex) {
+                instructionList.get(forwardIndex).addComeFrom(i);
             }
         }
     }
 
-    public static int analyse(List<Instruction> instructionList) {
-         List<Integer> loopIndices = loopDetector(instructionList);
-         if(!loopIndices.isEmpty()) {
-             return getErrorIndex(instructionList, loopIndices);
-         } else {
-             return -1;
-         }
-
-
-        // return 7;
+    private List<Integer> findPenultimateIndices() {
+        List<Integer> penultimateIndices = new LinkedList<>();
+        for(int i = 0; i < endIndex; i++) {
+            Instruction instruction = instructionList.get(i);
+            if(endIndex == i + instruction.getNextOffset()) {
+                penultimateIndices.add(i);
+            }
+        }
+        return penultimateIndices;
     }
 
-    private static List<Integer> loopDetector(List<Instruction> instructionList) {
-        List<Integer> stepHistory = new LinkedList<>();
-        Controller controller = new Controller(instructionList);
-        controller.reset();
-        Integer endIndex = 0;
-        boolean loopDetected = false;
-        for(Instruction instruction : instructionList) {
-            Integer result = controller.stepWithoutExecute();
-            if(stepHistory.contains(result)) {
-                endIndex = result;
-                loopDetected = true;
-                break;
-            }
-            stepHistory.add(result);
-        }
-        if(loopDetected) {
-            while(!stepHistory.get(0).equals(endIndex)) {
-                stepHistory.remove(0);
-            }
-            return stepHistory;
-        } else {
-            return new LinkedList<>();
+    private void walkEndPath(int index) {
+        Instruction instruction = instructionList.get(index);
+        instruction.markAsEndPath();
+        for(int previousIndex : instruction.getComesFrom()) {
+            walkEndPath(previousIndex);
         }
     }
 
-    private static int getErrorIndex(List<Instruction> instructionList, List<Integer> loopIndices) {
-        for(int index : loopIndices) {
-            Instruction instruction = instructionList.get(index);
-            int argument = instruction.getArgument();
-            Operation operation = instruction.getOperation();
-            if((operation == Operation.JMP) && (argument < 0) || (operation == Operation.NOP) && (argument > 0)) {
-                return index;
+    /*
+    Loop detector:
+        anywhere we see a jmp-, there MUST be a jump+x within x-1 steps before it, or we have a loop.
+    Loop fixer:
+        The fix is not so simple due to the constraints of the question - do we flip the jmp- to a nop, or do we step
+        backwards in search of a noop with a larger value than the difference and flip that?
+     */
+
+    private int identifyFaultyIndex() {
+        int position = 0;
+        while(position < endIndex) {
+            Instruction instruction = instructionList.get(position);
+
+            if(instruction.isJump() && instructionList.get(position+1).isEndPath()) {
+                return position;
+            } else if (instruction.isNoop() && instructionList.get(position+instruction.getArgument()).isEndPath()) {
+                return position;
             }
+
+            position += instruction.getNextOffset();
         }
         return -1;
     }
+
 }

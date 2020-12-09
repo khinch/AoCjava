@@ -1,24 +1,39 @@
 package aocjava.year2020.day08;
 
+import aocjava.InvalidPuzzleInputException;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Instruction {
 
+    private final List<Integer> comesFrom = new LinkedList<>();
     private final int argument;
-    private final Operation operation;
+    private final int nextOffset;
     private boolean executed = false;
-    private final List<Integer> comeFrom = new LinkedList<>();
+    private boolean accumulator = false;
+    private boolean jump = false;
+    private boolean noop = false;
     private boolean endPath = false;
-    private int nextOffset;
 
-    public Instruction(Operation operation, int argument) {
-        this.operation = operation;
-        this.argument = argument;
-        if(operation.equals(Operation.JMP)) {
-            nextOffset = argument;
-        } else {
-            nextOffset = 1;
+    public Instruction(String instructionString) {
+        String[] instructionParts = instructionString.split(" ");
+        this.argument = Integer.parseInt(instructionParts[1]);
+        switch (instructionParts[0]) {
+            case "acc":
+                accumulator = true;
+                nextOffset = 1;
+                break;
+            case "jmp":
+                jump = true;
+                nextOffset = argument;
+                break;
+            case "nop":
+                noop = true;
+                nextOffset = 1;
+                break;
+            default:
+                throw new InvalidPuzzleInputException("Unexpected operation: " + instructionParts[0]);
         }
     }
 
@@ -30,23 +45,15 @@ public class Instruction {
         return argument;
     }
 
-    public Operation getOperation() {
-        return operation;
-    }
-
     public boolean isExecuted() {
         return executed;
     }
 
-    public void reset() {
-        executed = false;
-    }
-
     public void addComeFrom(int index) {
-        comeFrom.add(index);
+        comesFrom.add(index);
     }
 
-    public void onEndPath() {
+    public void markAsEndPath() {
         endPath = true;
     }
 
@@ -56,5 +63,21 @@ public class Instruction {
 
     public int getNextOffset() {
         return nextOffset;
+    }
+
+    public List<Integer> getComesFrom() {
+        return comesFrom;
+    }
+
+    public boolean isAccumulator() {
+        return accumulator;
+    }
+
+    public boolean isJump() {
+        return jump;
+    }
+
+    public boolean isNoop() {
+        return noop;
     }
 }
