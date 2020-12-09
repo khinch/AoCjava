@@ -1,7 +1,6 @@
 package aocjava.year2020.day08;
 
 import aocjava.InvalidPuzzleInputException;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,28 +54,17 @@ public class Analyser {
         }
     }
 
-    /*
-    Loop detector:
-        anywhere we see a jmp-, there MUST be a jump+x within x-1 steps before it, or we have a loop.
-    Loop fixer:
-        The fix is not so simple due to the constraints of the question - do we flip the jmp- to a nop, or do we step
-        backwards in search of a noop with a larger value than the difference and flip that?
-     */
-
     private int identifyFaultyIndex() {
         int position = 0;
         while(position < endIndex) {
             Instruction instruction = instructionList.get(position);
-
             if(instruction.isJump() && instructionList.get(position+1).isEndPath()) {
                 return position;
             } else if (instruction.isNoop() && instructionList.get(position+instruction.getArgument()).isEndPath()) {
                 return position;
             }
-
             position += instruction.getNextOffset();
         }
         return -1;
     }
-
 }

@@ -24,33 +24,12 @@ public class Controller {
         return true;
     }
 
-//    Integer stepWithoutExecute() {
-//        aocjava.year2020.day08.Instruction instruction = instructions.get(position);
-////        boolean hasRunBefore = instruction.isExecuted();
-//        int initialPosition = position;
-//        step(instruction);
-////        if(hasRunBefore) {
-////            return initialPosition;
-////        } else {
-////            return null;
-////        }
-//        return initialPosition;
-//    }
-
     private void step(Instruction instruction) {
         if(instruction.isAccumulator()) {
             accumulator += instruction.getArgument();
         }
         position += instruction.getNextOffset();
     }
-
-//    public void reset() {
-//        accumulator = 0;
-//        position = 0;
-//        for(Instruction instruction : instructions) {
-//            instruction.reset();
-//        }
-//    }
 
     public int getAccumulator() {
         return accumulator;
