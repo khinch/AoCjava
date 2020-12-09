@@ -1,4 +1,4 @@
-package aocjava.Utils;
+package aocjava.utils;
 
 public interface SelfValdation
 {
