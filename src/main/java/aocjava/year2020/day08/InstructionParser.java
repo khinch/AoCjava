@@ -6,11 +6,13 @@ import java.util.Locale;
 
 public class InstructionParser {
 
+    private InstructionParser(){}
+
     public static List<Instruction> parse(String... instructionStrings) {
         List<Instruction> instructionList = new LinkedList<>();
         for(String instructionString : instructionStrings) {
             String[] instructionParts = instructionString.split(" ");
-            Instruction.Operation operation = Instruction.Operation.valueOf(instructionParts[0].toUpperCase(Locale.ROOT));
+            Operation operation = Operation.valueOf(instructionParts[0].toUpperCase(Locale.ROOT));
             int argument = Integer.parseInt(instructionParts[1]);
             Instruction instruction = new Instruction(operation, argument);
             instructionList.add(instruction);
