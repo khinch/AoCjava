@@ -1,6 +1,6 @@
 package aocjava;
 
-public class InvalidPuzzleInputException extends Exception
+public class InvalidPuzzleInputException extends RuntimeException
 {
     public InvalidPuzzleInputException(String message)
     {
