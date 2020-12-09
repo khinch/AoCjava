@@ -1,7 +1,7 @@
 package aocjava.year2017.day04;
 
-import aocjava.Utils.SelfValdation;
-import aocjava.Utils.StringUtils;
+import aocjava.utils.SelfValdation;
+import aocjava.utils.StringUtils;
 
 public class Passphrase implements SelfValdation
 {
