@@ -10,16 +10,16 @@ import java.util.List;
 public class Part1 implements Solvable {
 
     public String solve(String input) {
-        List<Integer> adaptors = new ArrayList<>();
-        for(String adaptorString : input.split("\n")) {
-            adaptors.add(Integer.parseInt(adaptorString));
+        List<Integer> adapters = new ArrayList<>();
+        for(String adapterString : input.split("\n")) {
+            adapters.add(Integer.parseInt(adapterString));
         }
-        adaptors.add(0);
-        Collections.sort(adaptors);
+        adapters.add(0);
+        Collections.sort(adapters);
         int ones = 0;
         int threes = 1;
-        for(int i = 0; i < adaptors.size()-1; i++) {
-            int difference = adaptors.get(i+1) - adaptors.get(i);
+        for(int i = 0; i < adapters.size()-1; i++) {
+            int difference = adapters.get(i+1) - adapters.get(i);
             if(difference == 1) {
                 ones++;
             } else if(difference == 3) {

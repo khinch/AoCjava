@@ -22,8 +22,7 @@ public class Tests extends BaseTest {
             "19\n" +
             "6\n" +
             "12\n" +
-            "4\n" +
-            "\n";
+            "4";
         clueInput2 =
             "28\n" +
             "33\n" +
@@ -65,10 +64,9 @@ public class Tests extends BaseTest {
         testClue(part1, new Clue(clueInput2,"220"));
     }
 
-//    @Test
-//    public void part2() {
-//        Part2 part2 = new Part2();
-//        testClue(part2, new Clue(clueInput1,"8"));
-//        testClue(part2, new Clue(clueInput2,"19208"));
-//    }
+    @Test
+    public void part2() {
+        testClue(new Part2(), new Clue(clueInput1,"8"));
+        testClue(new Part2(), new Clue(clueInput2,"19208"));
+    }
 }
