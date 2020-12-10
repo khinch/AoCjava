@@ -2,7 +2,6 @@ package aocjava.year2020.day10;
 
 import aocjava.InvalidPuzzleInputException;
 import aocjava.Solvable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +27,6 @@ public class Part1 implements Solvable {
                 throw new InvalidPuzzleInputException("Expected difference of 1 or 3, got " + difference);
             }
         }
-
         return Integer.toString(ones * threes);
     }
 }
