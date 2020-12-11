@@ -41,16 +41,8 @@ public class WaitingArea {
         boolean changesMade = false;
         for(int row = 0; row < rows; row++) {
             for(int column = 0; column < columns; column++) {
-                Position position = positions[row][column];
-                if(position.isSeat()) {
-                    int occupiedNeighbours = countOccupiedNeighbours(row, column);
-                    if(!position.isOccupied() && occupiedNeighbours == 0) {
-                        position.setNextState(true);
-                        changesMade = true;
-                    } else if(position.isOccupied() && occupiedNeighbours >= tolerance) {
-                        position.setNextState(false);
-                        changesMade = true;
-                    }
+                if(shiftPositionIfRequired(row, column)) {
+                    changesMade = true;
                 }
             }
         }
@@ -60,6 +52,21 @@ public class WaitingArea {
             }
         }
         return changesMade;
+    }
+
+    private boolean shiftPositionIfRequired(int row, int column) {
+        Position position = positions[row][column];
+        if(position.isSeat()) {
+            int occupiedNeighbours = countOccupiedNeighbours(row, column);
+            if(!position.isOccupied() && occupiedNeighbours == 0) {
+                position.setNextState(true);
+                return true;
+            } else if(position.isOccupied() && occupiedNeighbours >= tolerance) {
+                position.setNextState(false);
+                return true;
+            }
+        }
+        return false;
     }
 
     public int countAllOccupied() {
@@ -111,94 +118,97 @@ public class WaitingArea {
 
     private List<Position> getVisibleNeighbours(int row, int column) {
         List<Position> neighbours = new LinkedList<>();
-
-        // up
-        for(int i = 1; i <= row; i++) {
-            Position position = positions[row-i][column];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
-        }
-
-        // down
-        for(int i = 1; i <= rows-row-1; i++) {
-            Position position = positions[row+i][column];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
-        }
-
-        // left
-        for(int i = 1; i <= column; i++) {
-            Position position = positions[row][column-i];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
-        }
-
-        // right
-        for(int i = 1; i <= columns-column-1; i++) {
-            Position position = positions[row][column+i];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
-        }
-
-        // up left
-        for(int i = 1; i <= smallestOf(row, column); i++) {
-            Position position = positions[row-i][column-i];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
-        }
-
-        // up right
-        for(int i = 1; i <= smallestOf(row, columns-column-1); i++) {
-            Position position = positions[row-i][column+i];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
-        }
-
-        // down left
-        for(int i = 1; i <= smallestOf(rows-row-1, column); i++) {
-            Position position = positions[row+i][column-i];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
-        }
-
-        // down right
-        for(int i = 1; i <= smallestOf(rows-row, columns-column)-1; i++) {
-            Position position = positions[row+i][column+i];
-            if(position.isOccupied()) {
-                neighbours.add(position);
-                break;
-            } else if(position.isSeat()) {
-                break;
-            }
+        neighbours.add(findVisibleNeighboursAbove(row, column));
+        neighbours.add(findVisibleNeighboursBelow(row, column));
+        neighbours.add(findVisibleNeighboursLeft(row, column));
+        neighbours.add(findVisibleNeighboursRight(row, column));
+        neighbours.add(findVisibleNeighboursAboveLeft(row, column));
+        neighbours.add(findVisibleNeighboursAboveRight(row, column));
+        neighbours.add(findVisibleNeighboursBelowLeft(row, column));
+        neighbours.add(findVisibleNeighboursBelowRight(row, column));
+        while(neighbours.contains(null)) {
+            neighbours.remove(null);
         }
         return neighbours;
+    }
+
+    private Position findVisibleNeighboursAbove(int row, int column) {
+        for(int i = 1; i <= row; i++) {
+            Position position = positions[row-i][column];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
+    }
+
+    private Position findVisibleNeighboursBelow(int row, int column) {
+        for(int i = 1; i <= rows-row-1; i++) {
+            Position position = positions[row+i][column];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
+    }
+
+    private Position findVisibleNeighboursLeft(int row, int column) {
+        for(int i = 1; i <= column; i++) {
+            Position position = positions[row][column-i];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
+    }
+
+    private Position findVisibleNeighboursRight(int row, int column) {
+        for(int i = 1; i <= columns-column-1; i++) {
+            Position position = positions[row][column+i];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
+    }
+
+    private Position findVisibleNeighboursAboveLeft(int row, int column) {
+        for(int i = 1; i <= smallestOf(row, column); i++) {
+            Position position = positions[row-i][column-i];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
+    }
+
+    private Position findVisibleNeighboursAboveRight(int row, int column) {
+        for(int i = 1; i <= smallestOf(row, columns-column-1); i++) {
+            Position position = positions[row-i][column+i];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
+    }
+
+    private Position findVisibleNeighboursBelowLeft(int row, int column) {
+        for(int i = 1; i <= smallestOf(rows-row-1, column); i++) {
+            Position position = positions[row+i][column-i];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
+    }
+
+    private Position findVisibleNeighboursBelowRight(int row, int column) {
+        for(int i = 1; i <= smallestOf(rows-row, columns-column)-1; i++) {
+            Position position = positions[row+i][column+i];
+            if(position.isSeat()) {
+                return position;
+            }
+        }
+        return null;
     }
 }
