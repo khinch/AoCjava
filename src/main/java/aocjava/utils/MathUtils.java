@@ -1,5 +1,7 @@
 package aocjava.utils;
 
+import java.util.Arrays;
+
 public class MathUtils {
 
     private MathUtils(){}
@@ -50,5 +52,40 @@ public class MathUtils {
             }
         }
         return smallest;
+    }
+
+    @SuppressWarnings("java:S3012")
+    public static long lowestCommonDenominator(Long[] numbers) {
+        long[] sameNumbers = new long[numbers.length];
+        for(int i = 0; i < numbers.length; i++) {
+            sameNumbers[i] = numbers[i];
+        }
+        return lowestCommonDenominator(sameNumbers);
+    }
+
+    public static long lowestCommonDenominator(long... numbers) {
+        if(numbers.length == 0) {
+            return 0;
+        } else if(numbers.length == 1) {
+            return numbers[0];
+        }
+        Arrays.sort(numbers);
+        long commonFactor = numbers[0];
+        for(int i = 0; i < numbers.length-1; i++) {
+            commonFactor = lowestCommonDenom(commonFactor, numbers[i+1]);
+        }
+        return commonFactor;
+    }
+
+    private static long lowestCommonDenom(long smaller, long larger) {
+        boolean found = false;
+        long factor = 0;
+        while(!found) {
+            factor += smaller;
+            if(factor % larger == 0) {
+                found = true;
+            }
+        }
+        return factor;
     }
 }
